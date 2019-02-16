@@ -1,4 +1,3 @@
-/// <reference types="mdns" />
 import { Service } from 'mdns';
 import { Credentials } from './credentials';
 import { NowPlayingInfo } from './now-playing-info';

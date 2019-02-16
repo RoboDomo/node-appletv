@@ -4,19 +4,26 @@ const mdns = require("mdns");
 const appletv_1 = require("./appletv");
 class Browser {
     /**
-    * Creates a new Browser
-    * @param log  An optional function that takes a string to provide verbose logging.
-    */
+     * Creates a new Browser
+     * @param log  An optional function that takes a string to provide verbose logging.
+     */
     constructor() {
         let sequence = [
             mdns.rst.DNSServiceResolve(),
-            'DNSServiceGetAddrInfo' in mdns.dns_sd ? mdns.rst.DNSServiceGetAddrInfo() : mdns.rst.getaddrinfo({ families: [4] }),
+            "DNSServiceGetAddrInfo" in mdns.dns_sd
+                ? mdns.rst.DNSServiceGetAddrInfo()
+                : mdns.rst.getaddrinfo({ families: [4] }),
             mdns.rst.makeAddressesUnique()
         ];
-        this.browser = mdns.createBrowser(mdns.tcp('mediaremotetv'), { resolverSequence: sequence });
+        this.browser = mdns.createBrowser(mdns.tcp("mediaremotetv"), {
+            resolverSequence: sequence
+        });
         this.services = [];
         let that = this;
-        this.browser.on('serviceUp', function (service) {
+        this.browser.on("error", function (e) {
+            console.log("browser on error", e.message, e.stack);
+        });
+        this.browser.on("serviceUp", function (service) {
             let device = new appletv_1.AppleTV(service);
             if (that.uniqueIdentifier && device.uid == that.uniqueIdentifier) {
                 that.browser.stop();
@@ -28,11 +35,11 @@ class Browser {
         });
     }
     /**
-    * Scans for AppleTVs on the local network.
-    * @param uniqueIdentifier  An optional identifier for the AppleTV to scan for. The AppleTV advertises this via Bonjour.
-    * @param timeout  An optional timeout value (in seconds) to give up the search after.
-    * @returns A promise that resolves to an array of AppleTV objects. If you provide a `uniqueIdentifier` the array is guaranteed to only contain one object.
-    */
+     * Scans for AppleTVs on the local network.
+     * @param uniqueIdentifier  An optional identifier for the AppleTV to scan for. The AppleTV advertises this via Bonjour.
+     * @param timeout  An optional timeout value (in seconds) to give up the search after.
+     * @returns A promise that resolves to an array of AppleTV objects. If you provide a `uniqueIdentifier` the array is guaranteed to only contain one object.
+     */
     scan(uniqueIdentifier, timeout) {
         this.services = [];
         this.uniqueIdentifier = uniqueIdentifier;
@@ -48,8 +55,7 @@ class Browser {
                     reject(new Error("Failed to locate specified AppleTV on the network"));
                 }
                 else {
-                    resolve(that.services
-                        .sort((a, b) => {
+                    resolve(that.services.sort((a, b) => {
                         return a > b ? 1 : -1;
                     }));
                 }
