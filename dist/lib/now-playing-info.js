@@ -29,19 +29,37 @@ class NowPlayingInfo {
     }
     toString() {
         if (this.artist) {
-            let album = this.album == null ? '' : " -- " + this.album + " ";
-            return this.title + " by " + this.artist + album + " (" + this.percentCompleted() + "%) | "
-                + this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-                + this.playbackState;
+            let album = this.album == null ? "" : " -- " + this.album + " ";
+            return (this.title +
+                " by " +
+                this.artist +
+                album +
+                " (" +
+                this.percentCompleted() +
+                "%) | " +
+                this.appDisplayName +
+                " (" +
+                this.appBundleIdentifier +
+                ") | " +
+                this.playbackState);
         }
         else if (this.title) {
-            return this.title + " (" + this.percentCompleted() + "%) | "
-                + this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-                + this.playbackState;
+            return (this.title +
+                " (" +
+                this.percentCompleted() +
+                "%) | " +
+                this.appDisplayName +
+                " (" +
+                this.appBundleIdentifier +
+                ") | " +
+                this.playbackState);
         }
         else {
-            return this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-                + this.playbackState;
+            return (this.appDisplayName +
+                " (" +
+                this.appBundleIdentifier +
+                ") | " +
+                this.playbackState);
         }
     }
 }

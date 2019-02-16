@@ -13,7 +13,7 @@ export declare class NowPlayingInfo {
     percentCompleted(): string;
     toString(): string;
 }
-export declare module NowPlayingInfo {
+export declare namespace NowPlayingInfo {
     enum State {
         Playing = "playing",
         Paused = "paused",

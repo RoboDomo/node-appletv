@@ -10,7 +10,6 @@ export class NowPlayingInfo {
   public timestamp: number;
 
   constructor(public message: any) {
-    console.log("construct message", message);
     let nowPlayingInfo = message.nowPlayingInfo;
     if (nowPlayingInfo) {
       this.duration = nowPlayingInfo.duration;
