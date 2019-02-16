@@ -10,6 +10,7 @@ export class NowPlayingInfo {
   public timestamp: number;
 
   constructor(public message: any) {
+    console.log("construct message", message);
     let nowPlayingInfo = message.nowPlayingInfo;
     if (nowPlayingInfo) {
       this.duration = nowPlayingInfo.duration;
@@ -29,31 +30,57 @@ export class NowPlayingInfo {
   }
 
   public percentCompleted(): string {
-    if (!this.elapsedTime || !this.duration) { return "0.00"; }
+    if (!this.elapsedTime || !this.duration) {
+      return "0.00";
+    }
 
     return ((this.elapsedTime / this.duration) * 100).toPrecision(3);
   }
 
   public toString(): string {
     if (this.artist) {
-      let album = this.album == null ? '' : " -- " + this.album + " ";
-      return this.title + " by " + this.artist + album + " (" + this.percentCompleted() + "%) | "
-        + this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-        + this.playbackState; 
+      let album = this.album == null ? "" : " -- " + this.album + " ";
+      return (
+        this.title +
+        " by " +
+        this.artist +
+        album +
+        " (" +
+        this.percentCompleted() +
+        "%) | " +
+        this.appDisplayName +
+        " (" +
+        this.appBundleIdentifier +
+        ") | " +
+        this.playbackState
+      );
     } else if (this.title) {
-      return this.title + " (" + this.percentCompleted() + "%) | "
-        + this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-        + this.playbackState; 
+      return (
+        this.title +
+        " (" +
+        this.percentCompleted() +
+        "%) | " +
+        this.appDisplayName +
+        " (" +
+        this.appBundleIdentifier +
+        ") | " +
+        this.playbackState
+      );
     } else {
-      return this.appDisplayName + " (" + this.appBundleIdentifier + ") | "
-        + this.playbackState; 
+      return (
+        this.appDisplayName +
+        " (" +
+        this.appBundleIdentifier +
+        ") | " +
+        this.playbackState
+      );
     }
   }
 }
 
-export module NowPlayingInfo {
+export namespace NowPlayingInfo {
   export enum State {
-    Playing = 'playing',
-    Paused = 'paused'
+    Playing = "playing",
+    Paused = "paused"
   }
 }
