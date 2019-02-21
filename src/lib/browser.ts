@@ -29,7 +29,7 @@ export class Browser {
 
     let that = this;
     this.browser.on("error", function(e) {
-      console.log("browser on error", e.message, e.stack);
+      //      console.log("browser on error", e.message, e.stack);
     });
     this.browser.on("serviceUp", function(service) {
       let device = new AppleTV(service);
